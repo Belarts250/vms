@@ -1,8 +1,56 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Scanner;
+
+enum VisitPurpose {
+    BUSINESS,
+    TOURISM,
+    DELIVERY,
+    EDUCATION,
+    MEETING,
+    OTHER
+}
+
+class Validator {
+
+    public static boolean isValidName(String name) {
+        return name.matches("^[A-Za-z ]+$");
+    }
+
+    public static boolean isValidNumber(String num) {
+        return num.matches("^\\d+$");
+    }
+}
+
+class TicketWriterThread extends Thread {
+    private Visitor visitor;
+    private String fileName;
+
+    public TicketWriterThread(Visitor visitor, String fileName) {
+        this.visitor = visitor;
+        this.fileName = fileName;
+    }
+
+    @Override
+    public void run() {
+        try {
+            System.out.println("Background Thread: Saving ticket...");
+            Thread.sleep(1000);
+
+            FileWriter writer = new FileWriter(fileName, true);
+            writer.write(visitor.displayInfo());
+            writer.close();
+
+            System.out.println("Background Thread: Ticket saved successfully!\n");
+
+        } catch (Exception e) {
+            System.out.println("Thread Error: " + e.getMessage());
+        }
+    }
+}
 
 abstract class Person{
     private int id;
@@ -43,9 +91,9 @@ abstract class Person{
 // inheritance
 class Visitor extends  Person {
     public int visitor_id;
-    private String purpose;
+    private VisitPurpose purpose;
 
-    public Visitor(int id, String name,  int visitor_id, String purpose) {
+    public Visitor(int id, String name, int visitor_id, VisitPurpose purpose) {
         super(id, name);
         this.visitor_id = visitor_id;
         this.purpose = purpose;
@@ -59,11 +107,11 @@ class Visitor extends  Person {
         this.visitor_id = visitor_id;
     }
 
-    public String getPurpose() {
+    public VisitPurpose getPurpose() {
         return purpose;
     }
 
-    public void setPurpose(String purpose) {
+    public void setPurpose(VisitPurpose purpose) {
         this.purpose = purpose;
     }
 
@@ -85,6 +133,9 @@ public class Main {
 
         boolean isBooking = true;
 
+        List<Visitor> visitorList = new ArrayList<>();
+
+
         while(isBooking){
             System.out.print("Do you want to book a ticket? (y/n): ");
             char book = scanner.next().charAt(0);
@@ -100,34 +151,59 @@ public class Main {
                 System.out.print("Enter name: ");
                 String name = scanner.nextLine();
 
+                if (!Validator.isValidName(name)) {
+                    System.out.println("Names must contain letters only (no numbers allowed)!");
+                    continue;
+                }
+
                 System.out.print("Enter visitor ID: ");
                 int visitor_id = scanner.nextInt();
                 scanner.nextLine();
 
-                System.out.print("Enter purpose of visit: ");
-                String purpose = scanner.nextLine();
+                System.out.println("\nChoose purpose of visit:");
+                System.out.println("1. BUSINESS");
+                System.out.println("2. TOURISM");
+                System.out.println("3. DELIVERY");
+                System.out.println("4. EDUCATION");
+                System.out.println("5. MEETING");
+                System.out.println("6. OTHER");
+
+                System.out.print("Enter number: ");
+                int purposeChoice = Integer.parseInt(scanner.nextLine());
+
+                VisitPurpose purpose;
+
+                switch (purposeChoice) {
+                    case 1 -> purpose = VisitPurpose.BUSINESS;
+                    case 2 -> purpose = VisitPurpose.TOURISM;
+                    case 3 -> purpose = VisitPurpose.DELIVERY;
+                    case 4 -> purpose = VisitPurpose.EDUCATION;
+                    case 5 -> purpose = VisitPurpose.MEETING;
+                    default -> purpose = VisitPurpose.OTHER;
+                }
+
 
                 Visitor v = new Visitor(id, name, visitor_id, purpose);
 
+                visitorList.add(v);
 
+                TicketWriterThread thread = new TicketWriterThread(v, ticket);
+                thread.start();  // start writing in background
 
-                FileWriter writer = new FileWriter(ticket, true);
-                writer.write(v.displayInfo());
-                writer.close();
-
-                System.out.println("The ticket is saved in tickets.txt!");
+                System.out.println("\nMain Program: Your ticket is being processed...\n");
 
                 BufferedReader reader = new BufferedReader(new FileReader(ticket));
-
                 String line;
                 while ((line = reader.readLine()) != null){
                     System.out.println(line);
                 }
                 reader.close();
 
-            } catch (Exception e){
-                System.out.println("Error: Invalid input! " + e.getMessage());
-
+            } catch (NumberFormatException nfe) {
+                System.out.println("Invalid number entered. Please enter digits only!");
+            }
+            catch (Exception e) {
+                System.out.println("Something went wrong: " + e.getMessage());
             }
         }
         else if (book == 'n' || book == 'N') {

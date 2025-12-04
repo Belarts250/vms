@@ -1,3 +1,5 @@
+                            ALL TICKETS PAGE
+
 ======== WELCOME TO OUR VISITOR MANAGEMENT SYSTEM (GIRI GIRI WUUUU 💕 WUUUU 🎉🏄) =======
 Person ID: 1234
 Name: Dankie
@@ -15,4 +17,40 @@ Person ID: 6777329
 Name: Donkie
 Visitor ID: 728093
 Purpose of Visit: Eating
+
+======== WELCOME TO OUR VISITOR MANAGEMENT SYSTEM (GIRI GIRI WUUUU 💕 WUUUU 🎉🏄) =======
+Person ID: 46
+Name: Belarts Design
+Visitor ID: 12
+Purpose of Visit: Travelling
+
+======== WELCOME TO OUR VISITOR MANAGEMENT SYSTEM (GIRI GIRI WUUUU 💕 WUUUU 🎉🏄) =======
+Person ID: 3
+Name: Keza kelia
+Visitor ID: 493
+Purpose of Visit: study
+
+======== WELCOME TO OUR VISITOR MANAGEMENT SYSTEM (GIRI GIRI WUUUU 💕 WUUUU 🎉🏄) =======
+Person ID: 123
+Name: Icyizere
+Visitor ID: 1223
+Purpose of Visit: DELIVERY
+
+======== WELCOME TO OUR VISITOR MANAGEMENT SYSTEM (GIRI GIRI WUUUU 💕 WUUUU 🎉🏄) =======
+Person ID: 987
+Name: Karire
+Visitor ID: 456
+Purpose of Visit: BUSINESS
+
+======== WELCOME TO OUR VISITOR MANAGEMENT SYSTEM (GIRI GIRI WUUUU 💕 WUUUU 🎉🏄) =======
+Person ID: 1093
+Name: Manzi
+Visitor ID: 364
+Purpose of Visit: MEETING
+
+======== WELCOME TO OUR VISITOR MANAGEMENT SYSTEM (GIRI GIRI WUUUU 💕 WUUUU 🎉🏄) =======
+Person ID: 8283
+Name: Bel
+Visitor ID: 8372
+Purpose of Visit: EDUCATION
 
